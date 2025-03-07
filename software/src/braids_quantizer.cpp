@@ -114,7 +114,7 @@ int32_t Quantizer::Process(int32_t pitch, int32_t root, int32_t transpose, int8_
 
     // apply scale wrapping
     if (octave_range) {
-      octave = max(min(octave, octave_range_max), octave_range_min)
+      octave = std::max(std::min(octave, octave_range_max), octave_range_min);
     }
 
     // set final values

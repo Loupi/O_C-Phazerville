@@ -789,9 +789,9 @@ public:
             CONSTRAIN(root, 0, 11);
             CONSTRAIN(transpose, -12, 12);
             
-            uint8_t octave_range = get_octave_range()
-            int octave_range_min = get_octave_range_min()
-            int octave_range_max = get_octave_range_max()
+            uint8_t octave_range = get_octave_range();
+            int octave_range_min = get_octave_range_min();
+            int octave_range_max = get_octave_range_max();
             int32_t quantized = quantizer_.Process(pitch, root << 7, transpose, octave_range, octave_range_min, octave_range_max);
             sample = temp_sample = OC::DAC::pitch_to_scaled_voltage_dac(dac_channel, quantized, octave + continuous_offset_, OC::DAC::get_voltage_scaling(dac_channel));
 

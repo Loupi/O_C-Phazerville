@@ -61,7 +61,7 @@ public:
                 last_scale = scale;
             }
 
-            int new_pitch = quant.Process(In(0), 0, 0);
+            int new_pitch = quant.Process(In(0), 0, 0, 0, 0, 0);
             if (q_pitch != new_pitch)
                 ClockOut(1);
             q_pitch = new_pitch;
