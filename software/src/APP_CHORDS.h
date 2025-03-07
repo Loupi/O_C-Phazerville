@@ -814,17 +814,17 @@ public:
         CONSTRAIN(_voicing, 0,  OC::Chords::CHORDS_VOICING_LAST - 1);
       }
 
-      int32_t quantized = quantizer_.Process(pitch, root << 7, transpose);
+      int32_t quantized = quantizer_.Process(pitch, root << 7, transpose, 0, 0, 0);
       // main sample, S/H:
       sample_a = temp_sample = OC::DAC::pitch_to_scaled_voltage_dac(DAC_CHANNEL_A, quantized, octave + OC::inversion[_inversion][0], OC::DAC::get_voltage_scaling(DAC_CHANNEL_A));
 
       // now derive chords ...
       transpose += OC::qualities[_quality][1];
-      int32_t sample_b  = quantizer_.Process(pitch, root << 7, transpose);
+      int32_t sample_b  = quantizer_.Process(pitch, root << 7, transpose, 0, 0, 0);
       transpose += OC::qualities[_quality][2];
-      int32_t sample_c  = quantizer_.Process(pitch, root << 7, transpose);
+      int32_t sample_c  = quantizer_.Process(pitch, root << 7, transpose, 0, 0, 0);
       transpose += OC::qualities[_quality][3];
-      int32_t sample_d  = quantizer_.Process(pitch, root << 7, transpose);
+      int32_t sample_d  = quantizer_.Process(pitch, root << 7, transpose, 0, 0, 0);
 
       //todo voicing for root note
       sample_b = OC::DAC::pitch_to_scaled_voltage_dac(DAC_CHANNEL_B, sample_b, octave + OC::voicing[_voicing][1] + OC::inversion[_inversion][1], OC::DAC::get_voltage_scaling(DAC_CHANNEL_B));

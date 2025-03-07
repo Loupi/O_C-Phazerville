@@ -51,7 +51,7 @@ void Quantizer::Init() {
   next_boundary_ = 0;
 }
 
-int32_t Quantizer::Process(int32_t pitch, int32_t root, int32_t transpose) {
+int32_t Quantizer::Process(int32_t pitch, int32_t root, int32_t transpose, int8_t octave_range, int16_t octave_range_min, int16_t octave_range_max) {
   if (!enabled_) {
     return pitch;
   }
@@ -110,6 +110,11 @@ int32_t Quantizer::Process(int32_t pitch, int32_t root, int32_t transpose) {
     if (q < 0) {
       q += num_notes_;
       octave--;
+    }
+
+    // apply scale wrapping
+    if (octave_range) {
+      octave = max(min(octave, octave_range_max), octave_range_min)
     }
 
     // set final values

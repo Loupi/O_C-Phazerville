@@ -53,10 +53,10 @@ class Quantizer {
   void Init();
 
   int32_t Process(int32_t pitch) {
-    return Process(pitch, 0, 0);
+    return Process(pitch, 0, 0, 0, 0, 0);
   }
 
-  int32_t Process(int32_t pitch, int32_t root, int32_t transpose);
+  int32_t Process(int32_t pitch, int32_t root, int32_t transpose, int8_t octave_range, int16_t octave_range_min, int16_t octave_range_max);
 
   void Configure(const Scale& scale, uint16_t mask = 0xffff) {
     num_notes_ = 0;

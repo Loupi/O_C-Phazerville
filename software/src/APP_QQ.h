@@ -107,6 +107,9 @@ enum ChannelSetting {
   CHANNEL_SETTING_INT_SEQ_RANGE_CV_SOURCE,
   CHANNEL_SETTING_INT_SEQ_STRIDE_CV_SOURCE,
   CHANNEL_SETTING_INT_SEQ_RESET_TRIGGER,
+  CHANNEL_SETTING_OCTAVE_RANGE,
+  CHANNEL_SETTING_OCTAVE_RANGE_MIN,
+  CHANNEL_SETTING_OCTAVE_RANGE_MAX,
   CHANNEL_SETTING_LAST
 };
 
@@ -218,6 +221,18 @@ public:
 
   int get_octave() const {
     return values_[CHANNEL_SETTING_OCTAVE];
+  }
+
+  uint8_t get_octave_range() const {
+    return values_[CHANNEL_SETTING_OCTAVE_RANGE];
+  }
+
+  int get_octave_range_min() const {
+    return values_[CHANNEL_SETTING_OCTAVE_RANGE_MIN];
+  }
+
+  int get_octave_range_max() const {
+    return values_[CHANNEL_SETTING_OCTAVE_RANGE_MAX];
   }
 
   int get_fine() const {
@@ -773,8 +788,11 @@ public:
             CONSTRAIN(octave, -4, 4);
             CONSTRAIN(root, 0, 11);
             CONSTRAIN(transpose, -12, 12);
-
-            int32_t quantized = quantizer_.Process(pitch, root << 7, transpose);
+            
+            uint8_t octave_range = get_octave_range()
+            int octave_range_min = get_octave_range_min()
+            int octave_range_max = get_octave_range_max()
+            int32_t quantized = quantizer_.Process(pitch, root << 7, transpose, octave_range, octave_range_min, octave_range_max);
             sample = temp_sample = OC::DAC::pitch_to_scaled_voltage_dac(dac_channel, quantized, octave + continuous_offset_, OC::DAC::get_voltage_scaling(dac_channel));
 
             // continuous mode needs special treatment to give useful results.
@@ -840,7 +858,7 @@ public:
 
               // run quantizer again -- presumably could be made more efficient...
               if (_re_quantize)
-                quantized = quantizer_.Process(pitch, root << 7, transpose);
+                quantized = quantizer_.Process(pitch, root << 7, transpose, octave_range, octave_range_min, octave_range_max);
               if (_re_quantize || _trigger_update)
                 sample = OC::DAC::pitch_to_scaled_voltage_dac(dac_channel, quantized, octave + continuous_offset_, OC::DAC::get_voltage_scaling(dac_channel));
             }
@@ -1018,6 +1036,9 @@ public:
     *settings++ = CHANNEL_SETTING_OCTAVE;
     *settings++ = CHANNEL_SETTING_TRANSPOSE;
     *settings++ = CHANNEL_SETTING_FINE;
+    *settings++ = CHANNEL_SETTING_OCTAVE_RANGE;
+    *settings++ = CHANNEL_SETTING_OCTAVE_RANGE_MIN;
+    *settings++ = CHANNEL_SETTING_OCTAVE_RANGE_MAX;
 
     num_enabled_settings_ = settings - enabled_settings_;
   }
@@ -1175,7 +1196,10 @@ SETTINGS_DECLARE(QuantizerChannel, CHANNEL_SETTING_LAST) {
   { 0, 0, 4, "IntSeq mod CV", OC::Strings::cv_input_names_none, settings::STORAGE_TYPE_U4 },
   { 0, 0, 4, "IntSeq rng CV", OC::Strings::cv_input_names_none, settings::STORAGE_TYPE_U4 },
   { 0, 0, 4, "F. stride CV >", OC::Strings::cv_input_names_none, settings::STORAGE_TYPE_U4 },
-  { 0, 0, 4, "IntSeq reset", OC::Strings::trigger_input_names_none, settings::STORAGE_TYPE_U4 }
+  { 0, 0, 4, "IntSeq reset", OC::Strings::trigger_input_names_none, settings::STORAGE_TYPE_U4 },
+  { 0, 0, 1, "Octave range", OC::Strings::off_on, settings::STORAGE_TYPE_U8 },
+  { 0, -4, 4, "Octave range min", NULL, settings::STORAGE_TYPE_I8 },
+  { 0, -4, 4, "Octave range max", NULL, settings::STORAGE_TYPE_I8 }
 };
 
 // WIP refactoring to better encapsulate and for possible app interface change
