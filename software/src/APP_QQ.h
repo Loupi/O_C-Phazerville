@@ -1199,9 +1199,9 @@ SETTINGS_DECLARE(QuantizerChannel, CHANNEL_SETTING_LAST) {
   { 0, 0, 4, "IntSeq rng CV", OC::Strings::cv_input_names_none, settings::STORAGE_TYPE_U4 },
   { 0, 0, 4, "F. stride CV >", OC::Strings::cv_input_names_none, settings::STORAGE_TYPE_U4 },
   { 0, 0, 4, "IntSeq reset", OC::Strings::trigger_input_names_none, settings::STORAGE_TYPE_U4 },
-  { 0, 0, 1, "Octave constraint", OC::Strings::off_on, settings::STORAGE_TYPE_U8 },
-  { 0, -4, 4, "Octave constraint min", NULL, settings::STORAGE_TYPE_I8 },
-  { 0, -4, 4, "Octave constraint max", NULL, settings::STORAGE_TYPE_I8 }
+  { 0, 0, 1, "Oct constraint", OC::Strings::off_on, settings::STORAGE_TYPE_U8 },
+  { 0, -4, 4, "Oct constraint min", NULL, settings::STORAGE_TYPE_I8 },
+  { 0, -4, 4, "Oct constraint max", NULL, settings::STORAGE_TYPE_I8 }
 };
 
 // WIP refactoring to better encapsulate and for possible app interface change
@@ -1436,6 +1436,7 @@ void QQ_handleEncoderEvent(const UI::Event &event) {
           case CHANNEL_SETTING_SCALE:
           case CHANNEL_SETTING_TRIGGER:
           case CHANNEL_SETTING_SOURCE:
+          case CHANNEL_SETTING_OCTAVE_CONSTRAINT:
             selected.update_enabled_settings();
             qq_state.cursor.AdjustEnd(selected.num_enabled_settings() - 1);
           break;
