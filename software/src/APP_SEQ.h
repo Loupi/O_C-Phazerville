@@ -1111,7 +1111,7 @@ public:
                 gate_state_ = step_state_ = OFF;
             }
             // update output:
-            step_pitch_ = quantizer_.Process(step_pitch_, _root << 7, _transpose, 0, 0, 0);
+            step_pitch_ = quantizer_.Process(step_pitch_, _root << 7, _transpose);
 
             int32_t _attack = get_attack_duration();
             int32_t _decay = get_decay_duration();
@@ -1167,7 +1167,7 @@ public:
                   else
                   // this *might* not be quite a copy...
                     step_pitch_aux_ = step_pitch_ + (_octave_aux * 12 << 7);
-                  step_pitch_aux_ = quantizer_.Process(step_pitch_aux_, _root << 7, _transpose, 0, 0, 0);
+                  step_pitch_aux_ = quantizer_.Process(step_pitch_aux_, _root << 7, _transpose);
                 }
                 break;
                 case ENV_AD:

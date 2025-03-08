@@ -578,7 +578,7 @@ public:
         case DQ_CHANNEL_SOURCE_CV2:
         case DQ_CHANNEL_SOURCE_CV3:
         case DQ_CHANNEL_SOURCE_CV4:
-        quantized = quantizer_.Process(pitch, root << 7, transpose, 0, 0, 0);
+        quantized = quantizer_.Process(pitch, root << 7, transpose);
         break;
         case DQ_CHANNEL_SOURCE_TURING:
         {
@@ -706,7 +706,7 @@ public:
 
           // run quantizer again -- presumably could be made more efficient...
           if (_re_quantize)
-            quantized = quantizer_.Process(pitch, root << 7, transpose, 0, 0, 0);
+            quantized = quantizer_.Process(pitch, root << 7, transpose);
           if (_re_quantize || _trigger_update)
             sample = OC::DAC::pitch_to_scaled_voltage_dac(dac_channel, quantized, octave + continuous_offset_, OC::DAC::get_voltage_scaling(dac_channel));
           // update ASR?

@@ -49,9 +49,12 @@ void Quantizer::Init() {
   transpose_ = 0;
   previous_boundary_ = 0;
   next_boundary_ = 0;
+  octave_constraint_ = false;
+  octave_constraint_min_ = -4;
+  octave_constraint_max_ = 4;
 }
 
-int32_t Quantizer::Process(int32_t pitch, int32_t root, int32_t transpose, int8_t octave_range, int16_t octave_range_min, int16_t octave_range_max) {
+int32_t Quantizer::Process(int32_t pitch, int32_t root, int32_t transpose) {
   if (!enabled_) {
     return pitch;
   }
@@ -112,10 +115,8 @@ int32_t Quantizer::Process(int32_t pitch, int32_t root, int32_t transpose, int8_
       octave--;
     }
 
-    // apply scale wrapping
-    if (octave_range) {
-      octave = std::max(std::min(octave, octave_range_max), octave_range_min);
-    }
+    // apply octave constraint
+    octave = ConstrainOctave(octave);
 
     // set final values
     note_number_ = (octave + 2) * num_notes_ + q + 64; // 64 is C2
@@ -141,7 +142,19 @@ int32_t Quantizer::Lookup(int32_t index) const {
     octave--;
     rel_ix += num_notes_;
   }
+
+  // apply octave constraint
+  octave = ConstrainOctave(octave);
+
   int32_t pitch = notes_[rel_ix] + octave * span_;
   return pitch;
 }
+
+int16_t Quantizer::ConstrainOctave(int16_t octave) const {
+  if (octave_constraint_) {
+    CONSTRAIN(octave, octave_constraint_min_, octave_constraint_max_);
+  }
+  return octave;
+}
+
 }  // namespace braids

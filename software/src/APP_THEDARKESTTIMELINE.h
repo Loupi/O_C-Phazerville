@@ -169,13 +169,13 @@ public:
 
             if (tl == 0) {
                 // This is a CV Timeline, so output the normal universe note
-                int32_t pitch = HS::quantizer[0].Process(cv, root() << 7, transpose, 0, 0, 0);
+                int32_t pitch = HS::quantizer[0].Process(cv, root() << 7, transpose);
                 Out(0, pitch);
 
                 // and then output the alternate universe note
                 uint8_t alt_idx = (idx + length()) % 32;
                 int alt_cv = get_data_at(alt_idx, tl);
-                pitch = HS::quantizer[0].Process(alt_cv, root() << 7, transpose, 0, 0, 0);
+                pitch = HS::quantizer[0].Process(alt_cv, root() << 7, transpose);
                 Out(1, pitch);
             } else if (clocked) {
                 // This is the Probability Timeline, and it's only calculated when

@@ -583,10 +583,10 @@ void PASSENCORE::score_by_root() {
 
   if (values_[PASSENCORE_SETTING_CV3_ROLE] == PASSENCORE_CV_ROLE_ROOT) {
     root = true;
-    root_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_3), 0, 0, 0, 0, 0));
+    root_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_3), 0, 0));
   } else if (values_[PASSENCORE_SETTING_CV4_ROLE] == PASSENCORE_CV_ROLE_ROOT) {
     root = true;
-    root_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_4), 0, 0, 0, 0, 0));
+    root_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_4), 0, 0));
   }
 
   for (int i = 0; i < p_len; i++) {
@@ -606,10 +606,10 @@ void PASSENCORE::score_by_bass() {
 
   if (values_[PASSENCORE_SETTING_CV3_ROLE] == PASSENCORE_CV_ROLE_BASS) {
     bass = true;
-    bass_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_3), 0, 0, 0, 0, 0));
+    bass_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_3), 0, 0));
   } else if (values_[PASSENCORE_SETTING_CV4_ROLE] == PASSENCORE_CV_ROLE_BASS) {
     bass = true;
-    bass_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_4), 0, 0, 0, 0, 0));
+    bass_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_4), 0, 0));
   }
 
   for (int i = 0; i < p_len; i++) {
@@ -628,16 +628,16 @@ void PASSENCORE::score_by_include() {
   int include_sample = 0;
   if (values_[PASSENCORE_SETTING_CV3_ROLE] == PASSENCORE_CV_ROLE_INCLUDE) {
     include = true;
-    include_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_3), 0, 0, 0, 0, 0));
+    include_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_3), 0, 0));
   } else if (values_[PASSENCORE_SETTING_CV4_ROLE] == PASSENCORE_CV_ROLE_INCLUDE) {
     include = true;
-    include_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_4), 0, 0, 0, 0, 0));
+    include_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_4), 0, 0));
   } else if (values_[PASSENCORE_SETTING_CV3_ROLE] == PASSENCORE_CV_ROLE_BASS) {
     include = true;
-    include_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_3), 0, 0, 0, 0, 0));
+    include_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_3), 0, 0));
   } else if (values_[PASSENCORE_SETTING_CV4_ROLE] == PASSENCORE_CV_ROLE_BASS) {
     include = true;
-    include_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_4), 0, 0, 0, 0, 0));
+    include_sample = chromatic_tone(quantizer_.Process(OC::ADC::raw_pitch_value(ADC_CHANNEL_4), 0, 0));
   }
 
   for (int i = 0; i < p_len; i++) {
@@ -857,13 +857,13 @@ void PASSENCORE::add_chord(int8_t root, int8_t i1, int8_t i2, int8_t i3, int8_t 
   possibilities[p_len].seventh_type = CHORD_TYPES_NONE;
   possibilities[p_len].ninth_type = CHORD_TYPES_NONE;
 
-  int32_t root_note = quantizer_.Process(0, 0, root - 1, 0, 0, 0);
+  int32_t root_note = quantizer_.Process(0, 0, root - 1);
   int third = -1;
   int seventh = -1;
   bool borrow_dominant = values_[PASSENCORE_SETTING_BORROW_CHORDS] && f == PASSENCORE_FUNCTIONS_DOMINANT && (root == 5 || color >= PASSENCORE_COLORS_SUBSTITUTED);
 
   for (int i = 0; i < 4; i++) {
-    int32_t note = quantizer_.Process(0, 0, root + possibilities[p_len].intervals[i] - 2, 0, 0, 0);
+    int32_t note = quantizer_.Process(0, 0, root + possibilities[p_len].intervals[i] - 2);
     possibilities[p_len].samples[i] = note;
     int halfsteps = ((note - root_note) >> 7);
     switch (halfsteps) {

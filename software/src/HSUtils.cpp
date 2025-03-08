@@ -74,7 +74,7 @@ namespace HS {
   }
   int Quantize(int ch, int cv, int root, int transpose) {
     if (root == 0) root = (root_note[ch] << 7);
-    return quantizer[ch].Process(cv, root, transpose, 0, 0, 0) + (q_octave[ch] * 12 << 7);
+    return quantizer[ch].Process(cv, root, transpose) + (q_octave[ch] * 12 << 7);
   }
   int QuantizerLookup(int ch, int note) {
     return quantizer[ch].Lookup(note) + (root_note[ch] << 7) + (q_octave[ch] * 12 << 7);

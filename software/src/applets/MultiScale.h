@@ -68,7 +68,7 @@ public:
         }
 
         if (continuous || EndOfADCLag(0)) {
-            int32_t quantized = quant.Process(In(0), 0, 0, 0, 0, 0);
+            int32_t quantized = quant.Process(In(0), 0, 0);
             Out(0, quantized);
         }
     }

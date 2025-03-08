@@ -695,7 +695,7 @@ public:
                _sample = signed_saturate_rshift(_sample, 16, 0);
              }
 
-             _sample = quantizer_.Process(_sample, _root << 7, _transpose, 0, 0, 0);
+             _sample = quantizer_.Process(_sample, _root << 7, _transpose);
              _sample = OC::DAC::pitch_to_scaled_voltage_dac(static_cast<DAC_CHANNEL>(i), _sample, _octave, OC::DAC::get_voltage_scaling(i));
              scrolling_history_[i].Push(_sample);
              _asr_buffer[i] = _sample;

@@ -50,7 +50,7 @@ public:
 
         // Scale monitor
         int32_t pitch = In(0);
-        int32_t quantized = HS::quantizer[0].Process(pitch, 0, 0, 0, 0, 0);
+        int32_t quantized = HS::quantizer[0].Process(pitch, 0, 0);
         Out(0, quantized);
 
         // Current note monitor
@@ -337,7 +337,7 @@ private:
     void QuantizeCurrent() {
         int transpose = OC::user_scales[current_scale].span * octave;
         HS::quantizer[0].Requantize();
-        current_quantized = HS::quantizer[0].Process(OC::user_scales[current_scale].notes[current_note] + transpose, 0, 0, 0, 0, 0);
+        current_quantized = HS::quantizer[0].Process(OC::user_scales[current_scale].notes[current_note] + transpose, 0, 0);
         HS::quantizer[0].Requantize(); // This is for the next one in the Controller
     }
 };
