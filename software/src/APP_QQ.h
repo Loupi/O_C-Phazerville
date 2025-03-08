@@ -789,7 +789,7 @@ public:
             CONSTRAIN(octave, -4, 4);
             CONSTRAIN(root, 0, 11);
             CONSTRAIN(transpose, -12, 12);
-            
+
             int32_t quantized = quantizer_.Process(pitch, root << 7, transpose);
             sample = temp_sample = OC::DAC::pitch_to_scaled_voltage_dac(dac_channel, quantized, octave + continuous_offset_, OC::DAC::get_voltage_scaling(dac_channel));
 
